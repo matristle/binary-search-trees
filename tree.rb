@@ -17,7 +17,7 @@ class Tree
       only_element = array[0]
       return Node.new(only_element) 
     end
-    return nil if array.length == 0
+    return if array.length == 0
 
     middle_index = array.length / 2
     middle_element = array[middle_index]
@@ -32,6 +32,21 @@ class Tree
 
     return temp_node
   end
+
+  def insert(value, temp_node = root)
+    if temp_node.nil?
+      temp_node = Node.new(value)
+      return temp_node
+    end
+
+    if value < temp_node.data
+      temp_node.left_child = insert(value, temp_node.left_child)
+    elsif value > temp_node.data
+      temp_node.right_child = insert(value, temp_node.right_child)
+    end
+
+    return temp_node
+  end
 end
 
 #---------------------------------------------------------------------------------
@@ -39,4 +54,8 @@ end
 tree = Tree.new([2,3,4,6,8,3,1])
 
 p tree.array
-p tree.root
+# p tree.root
+
+tree.insert(5)
+tree.insert(11)
+p tree.insert(-24)
