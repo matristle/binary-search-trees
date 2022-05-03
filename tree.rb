@@ -48,27 +48,29 @@ class Tree
     return temp_node
   end
 
-  def delete(value, root)
-    return root if root.nil?
+  def delete(value, root_node = root)
+    return root_node if root_node.nil?
 
-    if value < root.data
-      root.left_child = delete(value, root.left_child)
-    elsif value > root.data
-      root.right_child = delete(value, root.right_child)
+    if value < root_node.data
+      root_node.left_child = delete(value, root_node.left_child)
+    elsif value > root_node.data
+      root_node.right_child = delete(value, root_node.right_child)
     else
-      if root.left_child.nil?
-        temp_node = root.right_child
-        root = nil
+      if root_node.left_child.nil?
+        temp_node = root_node.right_child
+        root_node = nil
         return temp_node
-      elsif root.right_child.nil?
-        temp_node = root.left_child
-        root = nil
+      elsif root_node.right_child.nil?
+        temp_node = root_node.left_child
+        root_node = nil
         return temp_node
       end
     end
       
-    return root
+    return root_node
   end
+
+  
 end
 
 #---------------------------------------------------------------------------------
@@ -83,6 +85,6 @@ tree.insert(11)
 tree.insert(-24)
 p tree.root
 
-tree.delete(5, tree.root)
+tree.delete(5)
 
 p tree.root
