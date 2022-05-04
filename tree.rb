@@ -80,13 +80,28 @@ class Tree
       find(value, root_node.right_child)
     end
   end
+
+  def level_order(queue_array = [])
+    return array unless block_given?
+
+    queue_array.push(root)
+
+    until queue_array.empty?
+      current_node = queue_array.shift
+
+      yield current_node
+      
+      queue_array.push(current_node.left_child) unless current_node.left_child.nil?
+      queue_array.push(current_node.right_child) unless current_node.right_child.nil?
+    end
+  end
 end
 
 #---------------------------------------------------------------------------------
 
-tree = Tree.new([1,2,3,4])
+tree = Tree.new([1,2,3,4,5,6,7])
 
-p tree.array
+# p tree.array
 # p tree.root
 
 # tree.insert(5)
@@ -98,4 +113,9 @@ p tree.array
 
 # p tree.root
 
-p tree.find(4)
+# p tree.find(4)
+
+ tree.level_order
+ tree.level_order { |node| p node }
+ tree.level_order { |node| p node.data }
+
