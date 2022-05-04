@@ -70,21 +70,32 @@ class Tree
     return root_node
   end
 
-  
+  def find(value, root_node = root)
+    return if root_node.nil?
+    return root_node if root_node.data == value
+    
+    if value < root_node.data
+      find(value, root_node.left_child)
+    elsif value > root_node.data
+      find(value, root_node.right_child)
+    end
+  end
 end
 
 #---------------------------------------------------------------------------------
 
-tree = Tree.new([2,3,4,6,8,3,1])
+tree = Tree.new([1,2,3,4])
 
 p tree.array
 # p tree.root
 
-tree.insert(5)
-tree.insert(11)
-tree.insert(-24)
-p tree.root
+# tree.insert(5)
+# tree.insert(11)
+# tree.insert(-24)
+# p tree.root
 
-tree.delete(5)
+# tree.delete(5)
 
-p tree.root
+# p tree.root
+
+p tree.find(4)
