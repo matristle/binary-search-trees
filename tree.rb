@@ -98,6 +98,16 @@ class Tree
     return inorder_value_array unless block_given?
   end
 
+  def preorder(current_node = root, preorder_value_array = [], &block)
+    return if current_node.nil?
+    
+    preorder_value_array.push(current_node.data) 
+    yield current_node if block_given?
+    preorder(current_node.left_child, preorder_value_array, &block)
+    preorder(current_node.right_child, preorder_value_array, &block)
+    return preorder_value_array unless block_given?
+  end
+
   
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -131,11 +141,14 @@ tree = Tree.new([13,5,9,3,7,15,21])
 
 tree.pretty_print
 
-p tree.level_order
-p tree.level_order { |node| p node }
+# p tree.level_order
+# p tree.level_order { |node| p node }
 
-p tree.inorder
-p tree.inorder { |node| p node }
+# p tree.inorder
+# p tree.inorder { |node| p node }
+
+p tree.preorder
+p tree.preorder { |node| p node }
 
 
 
