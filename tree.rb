@@ -2,30 +2,30 @@ require_relative 'node'
 
 class Tree
 
-  attr_accessor :root, :array
+  attr_accessor :root, :value_array
 
-  def initialize(array)
-    @array = array
+  def initialize(value_array)
+    @value_array = value_array
                   .sort
                   .uniq
-    @root = build_tree(array)
+    @root = build_tree(value_array)
   end
 
-  def build_tree(array)
+  def build_tree(value_array)
 
-    if array.length == 1
-      only_element = array[0]
+    if value_array.length == 1
+      only_element = value_array[0]
       return Node.new(only_element) 
     end
-    return if array.length == 0
+    return if value_array.length == 0
 
-    middle_index = array.length / 2
-    middle_element = array[middle_index]
+    middle_index = value_array.length / 2
+    middle_element = value_array[middle_index]
 
     temp_node = Node.new(middle_element)
 
-    left_side_array = array[0..middle_index - 1]
-    right_side_array = array[middle_index + 1..-1]
+    left_side_array = value_array[0..middle_index - 1]
+    right_side_array = value_array[middle_index + 1..-1]
 
     temp_node.left_child = build_tree(left_side_array)
     temp_node.right_child = build_tree(right_side_array) 
@@ -82,7 +82,7 @@ class Tree
   end
 
   def level_order(queue_array = [])
-    return array unless block_given?
+    return value_array unless block_given?
 
     queue_array.push(root)
 
@@ -95,13 +95,16 @@ class Tree
       queue_array.push(current_node.right_child) unless current_node.right_child.nil?
     end
   end
+
+  def inorder
+  end
 end
 
 #---------------------------------------------------------------------------------
 
 tree = Tree.new([1,2,3,4,5,6,7])
 
-# p tree.array
+# p tree.value_array
 # p tree.root
 
 # tree.insert(5)
