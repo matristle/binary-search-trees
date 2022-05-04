@@ -11,26 +11,16 @@ class Tree
     @root = build_tree(value_array)
   end
 
-  def build_tree(value_array)
+  def build_tree(value_array, start_index = 0, end_index = value_array.length - 1)
+    return nil if start_index > end_index
 
-    if value_array.length == 1
-      only_element = value_array[0]
-      return Node.new(only_element) 
-    end
-    return if value_array.length == 0
+    middle_index = (start_index + end_index) / 2
+    temp_node = Node.new(value_array[middle_index])
 
-    middle_index = value_array.length / 2
-    middle_element = value_array[middle_index]
+    temp_node.left_child = build_tree(value_array, start_index, middle_index - 1)
+    temp_node.right_child = build_tree(value_array, middle_index + 1, end_index)
 
-    temp_node = Node.new(middle_element)
-
-    left_side_array = value_array[0..middle_index - 1]
-    right_side_array = value_array[middle_index + 1..-1]
-
-    temp_node.left_child = build_tree(left_side_array)
-    temp_node.right_child = build_tree(right_side_array) 
-
-    return temp_node
+    temp_node
   end
 
   def insert(value, temp_node = root)
@@ -96,16 +86,21 @@ class Tree
     end
   end
 
-  def inorder
+  
+
+  def pretty_print(node = @root, prefix = '', is_left = true)
+    pretty_print(node.right_child, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_child
+    puts "#{prefix}#{is_left ? '└── ' : '┌── '}#{node.data}"
+    pretty_print(node.left_child, "#{prefix}#{is_left ? '    ' : '│   '}", true) if node.left_child
   end
 end
 
 #---------------------------------------------------------------------------------
 
-tree = Tree.new([1,2,3,4,5,6,7])
+tree = Tree.new([1,2,3,4,5])
 
 # p tree.value_array
-# p tree.root
+p tree.root
 
 # tree.insert(5)
 # tree.insert(11)
@@ -118,7 +113,11 @@ tree = Tree.new([1,2,3,4,5,6,7])
 
 # p tree.find(4)
 
- tree.level_order
- tree.level_order { |node| p node }
- tree.level_order { |node| p node.data }
+#  tree.level_order
+#  tree.level_order { |node| p node }
+#  tree.level_order { |node| p node.data }
+
+tree.pretty_print
+
+
 
