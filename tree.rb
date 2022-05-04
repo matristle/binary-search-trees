@@ -71,20 +71,24 @@ class Tree
     end
   end
 
-  def level_order(queue_array = [])
-    return value_array unless block_given?
-
+  def level_order(queue_array = [], level_ordered_value_array = [])
+    
     queue_array.push(root)
-
+    
     until queue_array.empty?
       current_node = queue_array.shift
 
-      yield current_node
+      level_ordered_value_array.push(current_node.data)
+      yield current_node if block_given?
       
       queue_array.push(current_node.left_child) unless current_node.left_child.nil?
       queue_array.push(current_node.right_child) unless current_node.right_child.nil?
     end
+
+    return level_ordered_value_array unless block_given?
   end
+
+  
 
   
 
@@ -97,10 +101,10 @@ end
 
 #---------------------------------------------------------------------------------
 
-tree = Tree.new([1,2,3,4,5])
+tree = Tree.new([1,2,3,4,5,6])
 
 # p tree.value_array
-p tree.root
+# p tree.root
 
 # tree.insert(5)
 # tree.insert(11)
@@ -118,6 +122,9 @@ p tree.root
 #  tree.level_order { |node| p node.data }
 
 tree.pretty_print
+
+p tree.level_order
+
 
 
 
