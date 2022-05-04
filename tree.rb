@@ -95,6 +95,7 @@ class Tree
     inorder_value_array.push(current_node.data) 
     yield current_node if block_given?
     inorder(current_node.right_child, inorder_value_array, &block)
+
     return inorder_value_array unless block_given?
   end
 
@@ -105,7 +106,19 @@ class Tree
     yield current_node if block_given?
     preorder(current_node.left_child, preorder_value_array, &block)
     preorder(current_node.right_child, preorder_value_array, &block)
+
     return preorder_value_array unless block_given?
+  end
+
+  def postorder(current_node = root, postorder_value_array = [], &block)
+    return if current_node.nil?
+    
+    postorder(current_node.left_child, postorder_value_array, &block)
+    postorder(current_node.right_child, postorder_value_array, &block)
+    postorder_value_array.push(current_node.data) 
+    yield current_node if block_given?
+
+    return postorder_value_array unless block_given?
   end
 
   
@@ -147,8 +160,11 @@ tree.pretty_print
 # p tree.inorder
 # p tree.inorder { |node| p node }
 
-p tree.preorder
-p tree.preorder { |node| p node }
+# p tree.preorder
+# p tree.preorder { |node| p node }
+
+p tree.postorder
+p tree.postorder { |node| p node }
 
 
 
