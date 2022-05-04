@@ -6,8 +6,8 @@ class Tree
 
   def initialize(value_array)
     @value_array = value_array
-                  .sort
-                  .uniq
+                              .sort!
+                              .uniq!
     @root = build_tree(value_array)
   end
 
@@ -71,26 +71,32 @@ class Tree
     end
   end
 
-  def level_order(queue_array = [], level_ordered_value_array = [])
+  def level_order(queue_array = [], level_order_value_array = [], &block)
     
     queue_array.push(root)
     
     until queue_array.empty?
       current_node = queue_array.shift
 
-      level_ordered_value_array.push(current_node.data)
+      level_order_value_array.push(current_node.data)
       yield current_node if block_given?
       
       queue_array.push(current_node.left_child) unless current_node.left_child.nil?
       queue_array.push(current_node.right_child) unless current_node.right_child.nil?
     end
 
-    return level_ordered_value_array unless block_given?
+    return level_order_value_array unless block_given?
   end
 
-  
-
-  
+  def inorder(current_node = root, inorder_value_array = [], &block)
+    return if current_node.nil?
+    
+    inorder(current_node.left_child, inorder_value_array, &block)
+    inorder_value_array.push(current_node.data) 
+    yield current_node if block_given?
+    inorder(current_node.right_child, inorder_value_array, &block)
+    return inorder_value_array unless block_given?
+  end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right_child, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_child
@@ -101,7 +107,7 @@ end
 
 #---------------------------------------------------------------------------------
 
-tree = Tree.new([1,2,3,4,5,6])
+tree = Tree.new([13,5,9,3,7,15,21])
 
 # p tree.value_array
 # p tree.root
@@ -124,6 +130,11 @@ tree = Tree.new([1,2,3,4,5,6])
 tree.pretty_print
 
 p tree.level_order
+p tree.level_order { |node| p node }
+
+p tree.inorder
+p tree.inorder { |node| p node }
+
 
 
 
