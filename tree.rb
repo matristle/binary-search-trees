@@ -130,6 +130,12 @@ class Tree
     return [left_side_height, right_side_height].max + 1
   end
 
+  def depth(current_node = root)
+    height_difference = height(root) - height(current_node)
+
+    return height_difference
+  end
+
   
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -175,22 +181,41 @@ tree.pretty_print
 # p tree.postorder
 # p tree.postorder { |node| p node }
 
-p tree.height(tree.root
-             )
-p tree.height(tree.root
-                       .left_child
-             )
-p tree.height(tree.root
-                       .left_child
-                       .left_child
-             )
+# p tree.height(tree.root
+#              )
+# p tree.height(tree.root
+#                        .left_child
+#              )
+# p tree.height(tree.root
+#                        .left_child
+#                        .left_child
+#              )
        
                  
-p tree.height(tree.root
-                       .left_child
-                       .left_child
-                       .right_child
-             )
+# p tree.height(tree.root
+#                        .left_child
+#                        .left_child
+#                        .right_child
+#              )
+
+p tree.depth(tree.root
+              )
+p tree.depth(tree.root
+                        .left_child
+              )
+p tree.depth(tree.root
+                        .left_child
+                        .left_child
+              )
+        
+                  
+p tree.depth(tree.root
+                        .left_child
+                        .left_child
+                        .right_child
+              )
+
+
 
 
 
