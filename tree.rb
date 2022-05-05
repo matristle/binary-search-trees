@@ -6,9 +6,9 @@ class Tree
 
   def initialize(value_array)
     @value_array = value_array
-                              .sort!
-                              .uniq!
-    @root = build_tree(value_array)
+                              .sort
+                              .uniq
+    @root = build_tree(@value_array)
   end
 
   def build_tree(value_array, start_index = 0, end_index = value_array.length - 1)
@@ -162,7 +162,9 @@ class Tree
     return both_sides_balanced
   end
 
-  
+  def rebalance
+    self.root = build_tree(value_array)
+  end
 
   def pretty_print(node = @root, prefix = '', is_left = true)
     pretty_print(node.right_child, "#{prefix}#{is_left ? '│   ' : '    '}", false) if node.right_child
@@ -173,7 +175,7 @@ end
 
 #---------------------------------------------------------------------------------
 
-tree = Tree.new([13,5,9,3,7,15,21,35,73,24,532,6,4,14])
+tree = Tree.new([13,13,5,5,9,9,9,9,9,3,7,15,21,35,73,24,532,6,4,14])
 
 # p tree.value_array
 # p tree.root
@@ -192,7 +194,7 @@ tree = Tree.new([13,5,9,3,7,15,21,35,73,24,532,6,4,14])
 #  tree.level_order
 #  tree.level_order { |node| p node }
 #  tree.level_order { |node| p node.data }
-
+puts "Initial tree: "
 tree.pretty_print
 
 # p tree.level_order
@@ -241,13 +243,22 @@ tree.pretty_print
 #                         .right_child
 #               )
 
-p tree.balanced?
+# p tree.balanced?
 
-another_tree = tree.clone
-another_tree.unbalance
-another_tree.pretty_print
+# another_tree = tree.clone
+# another_tree.unbalance
+# another_tree.pretty_print
 
-p another_tree.balanced?
+# p another_tree.balanced?
+
+tree.unbalance
+puts "Unbalanced tree: "
+tree.pretty_print
+
+p tree.value_array
+tree.rebalance
+puts "Re-balanced tree: "
+tree.pretty_print
 
 
 
