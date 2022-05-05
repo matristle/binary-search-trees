@@ -1,13 +1,10 @@
-require_relative 'node'
+require_relative './node'
 
 class Tree
-
   attr_accessor :root, :value_array
 
   def initialize(value_array)
-    @value_array = value_array
-                              .sort
-                              .uniq
+    @value_array = value_array.sort.uniq
     @root = build_tree(@value_array)
   end
 
@@ -45,25 +42,23 @@ class Tree
       root_node.left_child = delete(value, root_node.left_child)
     elsif value > root_node.data
       root_node.right_child = delete(value, root_node.right_child)
-    else
-      if root_node.left_child.nil?
-        temp_node = root_node.right_child
-        root_node = nil
-        return temp_node
-      elsif root_node.right_child.nil?
-        temp_node = root_node.left_child
-        root_node = nil
-        return temp_node
-      end
+    elsif root_node.left_child.nil?
+      temp_node = root_node.right_child
+      root_node = nil
+      return temp_node
+    elsif root_node.right_child.nil?
+      temp_node = root_node.left_child
+      root_node = nil
+      return temp_node
     end
-      
+
     return root_node
   end
 
   def find(value, root_node = root)
     return if root_node.nil?
     return root_node if root_node.data == value
-    
+
     if value < root_node.data
       find(value, root_node.left_child)
     elsif value > root_node.data
@@ -72,15 +67,15 @@ class Tree
   end
 
   def level_order(queue_array = [], level_order_value_array = [], &block)
-    
+
     queue_array.push(root)
-    
+
     until queue_array.empty?
       current_node = queue_array.shift
 
       level_order_value_array.push(current_node.data)
       yield current_node if block_given?
-      
+
       queue_array.push(current_node.left_child) unless current_node.left_child.nil?
       queue_array.push(current_node.right_child) unless current_node.right_child.nil?
     end
@@ -90,7 +85,7 @@ class Tree
 
   def inorder(current_node = root, inorder_value_array = [], &block)
     return if current_node.nil?
-    
+
     inorder(current_node.left_child, inorder_value_array, &block)
     inorder_value_array.push(current_node.data) 
     yield current_node if block_given?
@@ -101,7 +96,7 @@ class Tree
 
   def preorder(current_node = root, preorder_value_array = [], &block)
     return if current_node.nil?
-    
+
     preorder_value_array.push(current_node.data) 
     yield current_node if block_given?
     preorder(current_node.left_child, preorder_value_array, &block)
@@ -112,7 +107,7 @@ class Tree
 
   def postorder(current_node = root, postorder_value_array = [], &block)
     return if current_node.nil?
-    
+
     postorder(current_node.left_child, postorder_value_array, &block)
     postorder(current_node.right_child, postorder_value_array, &block)
     postorder_value_array.push(current_node.data) 
