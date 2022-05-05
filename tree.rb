@@ -121,6 +121,15 @@ class Tree
     return postorder_value_array unless block_given?
   end
 
+  def height(current_node = root)
+    return -1 if current_node.nil?
+
+    left_side_height = height(current_node.left_child)
+    right_side_height = height(current_node.right_child)
+
+    return [left_side_height, right_side_height].max + 1
+  end
+
   
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -132,7 +141,7 @@ end
 
 #---------------------------------------------------------------------------------
 
-tree = Tree.new([13,5,9,3,7,15,21])
+tree = Tree.new([13,5,9,3,7,15,21,35,73,24,532,6,4,14])
 
 # p tree.value_array
 # p tree.root
@@ -163,8 +172,26 @@ tree.pretty_print
 # p tree.preorder
 # p tree.preorder { |node| p node }
 
-p tree.postorder
-p tree.postorder { |node| p node }
+# p tree.postorder
+# p tree.postorder { |node| p node }
+
+p tree.height(tree.root
+             )
+p tree.height(tree.root
+                       .left_child
+             )
+p tree.height(tree.root
+                       .left_child
+                       .left_child
+             )
+       
+                 
+p tree.height(tree.root
+                       .left_child
+                       .left_child
+                       .right_child
+             )
+
 
 
 
