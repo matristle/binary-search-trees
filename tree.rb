@@ -67,7 +67,6 @@ class Tree
   end
 
   def level_order(queue_array = [], level_order_value_array = [], &block)
-
     queue_array.push(root)
 
     until queue_array.empty?
@@ -187,22 +186,22 @@ tree = Tree.new([13,13,5,5,9,9,9,9,9,3,7,15,21,35,73,24,532,6,4,14])
 # p tree.find(4)
 
 #  tree.level_order
-#  tree.level_order { |node| p node }
-#  tree.level_order { |node| p node.data }
-puts "Initial tree: "
-tree.pretty_print
+#  p tree.level_order { |node| node }
+#  p tree.level_order { |node| node.data }
+# puts "Initial tree: "
+# tree.pretty_print
 
 # p tree.level_order
-# p tree.level_order { |node| p node }
+# p tree.level_order { |node| node }
 
 # p tree.inorder
-# p tree.inorder { |node| p node }
+# p tree.inorder { |node| node }
 
 # p tree.preorder
-# p tree.preorder { |node| p node }
+# p tree.preorder { |node| node }
 
 # p tree.postorder
-# p tree.postorder { |node| p node }
+# p tree.postorder { |node| node }
 
 # p tree.height(tree.root
 #              )
@@ -214,7 +213,7 @@ tree.pretty_print
 #                        .left_child
 #              )
        
-                 
+                
 # p tree.height(tree.root
 #                        .left_child
 #                        .left_child
@@ -246,14 +245,53 @@ tree.pretty_print
 
 # p another_tree.balanced?
 
-tree.unbalance
-puts "Unbalanced tree: "
-tree.pretty_print
+# tree.unbalance
+# puts "Unbalanced tree: "
+# tree.pretty_print
 
-p tree.value_array
+# p tree.value_array
+# tree.rebalance
+# puts "Re-balanced tree: "
+# tree.pretty_print
+
+#--------------------------------------------------------------------------------------
+
+tree = Tree.new(Array.new(15) { rand(1..100) })
+
+# p tree.balanced?
+
+first_level_order = tree.level_order { |node| print node }
+first_inorder = tree.inorder { |node| print node }
+first_preorder = tree.preorder { |node| print node }
+first_postorder = tree.postorder { |node| print node }
+print "\n"
+
+tree.insert(101)
+tree.insert(102)
+tree.insert(103)
+p tree.balanced?
+
 tree.rebalance
-puts "Re-balanced tree: "
-tree.pretty_print
+
+second_level_order = tree.level_order { |node| print node }
+second_inorder = tree.inorder { |node| print node }
+second_preorder = tree.preorder { |node| print node }
+second_postorder = tree.postorder { |node| print node }
+print "\n"
+
+p first_level_order == second_inorder
+p first_inorder == second_inorder
+p first_preorder == second_preorder
+p first_postorder == second_postorder
+
+
+
+
+
+
+
+
+
 
 
 
