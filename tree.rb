@@ -136,6 +136,32 @@ class Tree
     return height_difference
   end
 
+  def unbalance(root_node = root)
+    return root_node if root_node.nil? || root_node.left_child.nil? || root_node.right_child.nil?
+
+    root_node.left_child = nil if rand(0..2) == 0
+    root_node.right_child = nil if rand(0..2) == 1
+
+    unbalance(root_node.left_child)
+    unbalance(root_node.right_child)
+  end
+
+  def balanced?(current_node = root)
+    return true if current_node.nil?
+
+    left_side_height = height(current_node.left_child)
+    right_side_height = height(current_node.right_child)
+
+    return false if (left_side_height - right_side_height).abs > 1
+
+    left_side_balanced = balanced?(current_node.left_child)
+    right_side_balanced = balanced?(current_node.right_child)
+
+    both_sides_balanced = left_side_balanced && right_side_balanced
+
+    return both_sides_balanced
+  end
+
   
 
   def pretty_print(node = @root, prefix = '', is_left = true)
@@ -198,22 +224,32 @@ tree.pretty_print
 #                        .right_child
 #              )
 
-p tree.depth(tree.root
-              )
-p tree.depth(tree.root
-                        .left_child
-              )
-p tree.depth(tree.root
-                        .left_child
-                        .left_child
-              )
+# p tree.depth(tree.root
+#               )
+# p tree.depth(tree.root
+#                         .left_child
+#               )
+# p tree.depth(tree.root
+#                         .left_child
+#                         .left_child
+#               )
         
                   
-p tree.depth(tree.root
-                        .left_child
-                        .left_child
-                        .right_child
-              )
+# p tree.depth(tree.root
+#                         .left_child
+#                         .left_child
+#                         .right_child
+#               )
+
+p tree.balanced?
+
+another_tree = tree.clone
+another_tree.unbalance
+another_tree.pretty_print
+
+p another_tree.balanced?
+
+
 
 
 
